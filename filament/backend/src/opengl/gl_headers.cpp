@@ -28,6 +28,12 @@ static void getProcAddress(T& pfn, const char* name) noexcept {
 }
 
 namespace glext {
+#if defined(__OHOS__)
+#define GL_EXT_debug_marker 0
+#define GL_EXT_multisampled_render_to_texture 0
+#define GL_EXT_debug_marker 0
+#define GL_EXT_multisampled_render_to_texture 0
+#endif
 #ifdef GL_OES_EGL_image
 PFNGLEGLIMAGETARGETTEXTURE2DOESPROC glEGLImageTargetTexture2DOES;
 #endif
@@ -54,6 +60,9 @@ PFNGLCLIPCONTROLEXTPROC glClipControlEXT;
 #if defined(__ANDROID__)
 // On Android, If we want to support a build system less than ANDROID_API 21, we need to
 // use getProcAddress for ES3.1 and above entry points.
+PFNGLDISPATCHCOMPUTEPROC glDispatchCompute;
+#endif
+#if defined(__OHOS__)
 PFNGLDISPATCHCOMPUTEPROC glDispatchCompute;
 #endif
 
@@ -84,6 +93,9 @@ void importGLESExtensionsEntryPoints() {
     getProcAddress(glClipControlEXT, "glClipControlEXT");
 #endif
 #if defined(__ANDROID__)
+        getProcAddress(glDispatchCompute, "glDispatchCompute");
+#endif
+#if defined(__OHOS__)
         getProcAddress(glDispatchCompute, "glDispatchCompute");
 #endif
     });

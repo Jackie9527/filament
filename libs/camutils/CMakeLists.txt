@@ -52,7 +52,7 @@ install(DIRECTORY ${PUBLIC_HDR_DIR}/camutils DESTINATION include)
 # ==================================================================================================
 # Tests
 # ==================================================================================================
-if (NOT ANDROID AND NOT WEBGL AND NOT IOS)
+if (NOT ANDROID AND NOT OHOS AND NOT WEBGL AND NOT IOS)
     add_executable(test_${TARGET} tests/test_camutils.cpp)
     target_link_libraries(test_${TARGET} PRIVATE camutils gtest)
     set_target_properties(test_${TARGET} PROPERTIES FOLDER Tests)

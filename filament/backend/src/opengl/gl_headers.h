@@ -46,6 +46,8 @@
     #endif
     #include <GLES2/gl2ext.h>
 
+#elif defined(__OHOS__)
+    #   include <GLES3/gl31.h>
 #elif defined(IOS)
 
     #define GLES_SILENCE_DEPRECATION
@@ -125,6 +127,9 @@ extern PFNGLCLIPCONTROLEXTPROC glClipControlEXT;
 extern PFNGLGETQUERYOBJECTUI64VEXTPROC glGetQueryObjectui64v;
 #endif
 #if defined(__ANDROID__)
+extern PFNGLDISPATCHCOMPUTEPROC glDispatchCompute;
+#endif
+#if defined(__OHOS__)
 extern PFNGLDISPATCHCOMPUTEPROC glDispatchCompute;
 #endif
 } // namespace glext

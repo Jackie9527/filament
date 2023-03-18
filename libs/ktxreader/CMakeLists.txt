@@ -62,7 +62,7 @@ endfunction()
 add_testfile(color_grid_uastc_zstd.ktx2)
 add_testfile(lightroom_ibl.ktx)
 
-if (NOT ANDROID AND NOT WEBGL AND NOT IOS)
+if (NOT ANDROID AND NOT OHOS AND NOT WEBGL AND NOT IOS)
     add_executable(test_ktxreader tests/test_ktxreader.cpp ${TESTFILES})
     target_link_libraries(test_ktxreader PRIVATE ${TARGET} gtest)
     set_target_properties(test_ktxreader PROPERTIES FOLDER Tests)

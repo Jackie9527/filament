@@ -130,6 +130,7 @@ error:
 }
 
 #endif // __ANDROID_API__ >= 26
+#elif defined(__OHOS__)
 
 #elif defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
 

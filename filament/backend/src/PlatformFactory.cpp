@@ -27,6 +27,12 @@
     #if defined(FILAMENT_DRIVER_SUPPORTS_VULKAN)
         #include "vulkan/PlatformVkAndroid.h"
     #endif
+#elif defined(__OHOS__)
+
+    #if defined(FILAMENT_SUPPORTS_OPENGL) && !defined(FILAMENT_USE_EXTERNAL_GLES3)
+        #include "backend/platforms/PlatformEGLOHOS.h"
+    #endif
+
 #elif defined(IOS)
     #if defined(FILAMENT_SUPPORTS_OPENGL) && !defined(FILAMENT_USE_EXTERNAL_GLES3)
         #include "backend/platforms/PlatformCocoaTouchGL.h"
@@ -101,6 +107,8 @@ Platform* PlatformFactory::create(Backend* backend) noexcept {
         *backend = Backend::OPENGL;
 #elif defined(__ANDROID__)
         *backend = Backend::OPENGL;
+#elif defined(__OHOS__)
+        *backend = Backend::OPENGL;
 #elif defined(IOS) || defined(__APPLE__)
         *backend = Backend::METAL;
 #elif defined(FILAMENT_DRIVER_SUPPORTS_VULKAN)
@@ -151,6 +159,8 @@ Platform* PlatformFactory::create(Backend* backend) noexcept {
             return nullptr;
         #elif defined(__ANDROID__)
             return new PlatformEGLAndroid();
+        #elif defined(__OHOS__)
+            return new PlatformEGLOHOS();
         #elif defined(IOS)
             return new PlatformCocoaTouchGL();
         #elif defined(__APPLE__)

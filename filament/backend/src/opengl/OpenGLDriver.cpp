@@ -3247,6 +3247,9 @@ void OpenGLDriver::dispatchCompute(Handle<HwProgram> program, math::uint3 workGr
     // (this is temporary, until we phase-out API < 21)
     using glext::glDispatchCompute;
 #endif
+#if defined(__OHOS__)
+    using glext::glDispatchCompute;
+#endif
 
     glDispatchCompute(workGroupCount.x, workGroupCount.y, workGroupCount.z);
 #endif // BACKEND_OPENGL_LEVEL_GLES31

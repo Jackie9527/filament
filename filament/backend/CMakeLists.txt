@@ -91,6 +91,9 @@ if (FILAMENT_SUPPORTS_OPENGL AND NOT FILAMENT_USE_EXTERNAL_GLES3 AND NOT FILAMEN
     if (ANDROID)
         list(APPEND SRCS src/opengl/platforms/ExternalStreamManagerAndroid.cpp)
         list(APPEND SRCS src/opengl/platforms/PlatformEGLAndroid.cpp)
+    elseif (OHOS)
+        list(APPEND SRCS src/opengl/platforms/ExternalStreamManagerOHOS.cpp)
+        list(APPEND SRCS src/opengl/platforms/PlatformEGLOHOS.cpp)
     elseif (IOS)
         list(APPEND SRCS src/opengl/platforms/PlatformCocoaTouchGL.mm)
         list(APPEND SRCS src/opengl/platforms/CocoaTouchExternalImage.mm)
@@ -288,6 +291,13 @@ if (ANDROID)
     target_link_libraries(${TARGET} PUBLIC android)
 endif()
 
+if (OHOS)
+    if (FILAMENT_SUPPORTS_OPENGL)
+        target_link_libraries(${TARGET} PUBLIC GLESv3 EGL)
+    endif()
+    # target_link_libraries(${TARGET} PUBLIC android)
+endif()
+
 if (FILAMENT_USE_SWIFTSHADER)
     target_link_libraries(${TARGET} PUBLIC ${SWIFTSHADER_VK})
 endif()
@@ -300,7 +310,7 @@ target_link_libraries(${TARGET} PUBLIC math)
 target_link_libraries(${TARGET} PUBLIC utils)
 
 # Android, iOS, and WebGL do not use bluegl.
-if(FILAMENT_SUPPORTS_OPENGL AND NOT IOS AND NOT ANDROID AND NOT WEBGL)
+if(FILAMENT_SUPPORTS_OPENGL AND NOT IOS AND NOT ANDROID AND NOT OHOS AND NOT WEBGL)
     target_link_libraries(${TARGET} PRIVATE bluegl)
 endif()
 

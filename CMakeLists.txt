@@ -104,7 +104,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # ==================================================================================================
 # OS specific
 # ==================================================================================================
-if (UNIX AND NOT APPLE AND NOT ANDROID AND NOT WEBGL)
+if (UNIX AND NOT APPLE AND NOT ANDROID AND NOT OHOS AND NOT WEBGL)
     set(LINUX TRUE)
 else()
     # since cmake 3.25 LINUX is automatically set based on CMAKE_SYSTEM_NAME, which the android
@@ -140,7 +140,7 @@ if (LINUX)
     endif()
 endif()
 
-if (ANDROID OR WEBGL OR IOS OR FILAMENT_LINUX_IS_MOBILE)
+if (ANDROID OR OHOS OR WEBGL OR IOS OR FILAMENT_LINUX_IS_MOBILE)
     set(IS_MOBILE_TARGET TRUE)
 endif()
 
@@ -148,7 +148,7 @@ if (ANDROID)
     add_definitions(-D__ANDROID_UNAVAILABLE_SYMBOLS_ARE_WEAK__)
 endif()
 
-if (NOT ANDROID AND NOT WEBGL AND NOT IOS AND NOT FILAMENT_LINUX_IS_MOBILE)
+if (NOT ANDROID AND NOT OHOS AND NOT WEBGL AND NOT IOS AND NOT FILAMENT_LINUX_IS_MOBILE)
     set(IS_HOST_PLATFORM TRUE)
 endif()
 
@@ -327,6 +327,10 @@ if (ANDROID)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Werror=unguarded-availability")
 endif()
 
+if (OHOS)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Werror=unguarded-availability")
+endif()
+
 if (CYGWIN)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions -fno-rtti")
 endif()
@@ -363,10 +367,10 @@ endif()
 
 # On Android RELEASE builds, we disable exceptions and RTTI to save some space (about 75 KiB
 # saved by -fno-exception and 10 KiB saved by -fno-rtti).
-if (ANDROID OR IOS OR WEBGL)
+if (ANDROID OR OHOS OR IOS OR WEBGL)
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fno-exceptions -fno-rtti")
 
-    if (ANDROID OR WEBGL)
+    if (ANDROID OR OHOS OR WEBGL)
         # Omitting unwind info prevents the generation of readable stack traces in crash reports on iOS
         set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fno-unwind-tables -fno-asynchronous-unwind-tables")
     endif()
@@ -648,7 +652,7 @@ function(get_resgen_vars ARCHIVE_DIR ARCHIVE_NAME)
     set(RESGEN_HEADER "${ARCHIVE_DIR}/${ARCHIVE_NAME}.h" PARENT_SCOPE)
     # Visual Studio makes it difficult to use assembly without using MASM. MASM doesn't support
     # the equivalent of .incbin, so on Windows we'll just tell resgen to output a C file.
-    if (WEBGL OR WIN32 OR ANDROID_ON_WINDOWS)
+    if (WEBGL OR WIN32 OR ANDROID_ON_WINDOWS OR OHOS_ON_WINDOWS)
         set(RESGEN_OUTPUTS "${OUTPUTS};${ARCHIVE_DIR}/${ARCHIVE_NAME}.c" PARENT_SCOPE)
         set(RESGEN_FLAGS -qcx ${ARCHIVE_DIR} -p ${ARCHIVE_NAME} PARENT_SCOPE)
         set(RESGEN_SOURCE "${ARCHIVE_DIR}/${ARCHIVE_NAME}.c" PARENT_SCOPE)

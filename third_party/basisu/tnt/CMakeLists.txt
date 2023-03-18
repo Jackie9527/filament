@@ -75,7 +75,7 @@ if (IS_HOST_PLATFORM)
     target_compile_definitions(basisu PRIVATE ${BASIS_CONFIG})
     install(TARGETS basisu DESTINATION bin)
 
-    if (NOT MSVC AND NOT ANDROID)
+    if (NOT MSVC AND NOT ANDROID AND NOT OHOS)
        target_link_libraries(basisu m pthread)
     endif()
 endif()
